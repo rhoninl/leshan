@@ -48,7 +48,9 @@ import org.eclipse.leshan.core.model.ResourceModel;
 import org.eclipse.leshan.core.model.StaticModel;
 import org.eclipse.leshan.core.node.LwM2mPath;
 import org.eclipse.leshan.core.request.ContentFormat;
+import org.eclipse.leshan.core.request.ReadRequest;
 import org.eclipse.leshan.core.response.ErrorCallback;
+import org.eclipse.leshan.core.response.ReadResponse;
 import org.eclipse.leshan.core.response.ResponseCallback;
 import org.eclipse.leshan.core.response.SendResponse;
 import org.slf4j.Logger;
@@ -142,6 +144,17 @@ public class InteractiveCommands extends JLineInteractiveCommands implements Run
                 List<Integer> availableResources = objectEnabler.getAvailableResourceIds(instance);
                 availableResources.forEach(resourceId -> {
                     ResourceModel resourceModel = objectModel.resources.get(resourceId);
+                    if (resourceModel.operations.isReadable()) {
+                        LwM2mServer server = LwM2mServer.SYSTEM;
+                        ReadResponse response = objectEnabler.read(server,
+                                new ReadRequest(objectModel.id, instance, resourceId));
+
+                        if (response.isSuccess()) {
+                            parent.printfAnsi("  /%d/%d/%d : @|bold,fg(blue) %s : %s|@ %n", objectModel.id, instance,
+                                    resourceId, resourceModel.name, response.getContent());
+                            return;
+                        }
+                    }
                     parent.printfAnsi("  /%d : @|bold,fg(cyan) %s |@ %n", resourceId, resourceModel.name);
                 });
             });

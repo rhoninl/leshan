@@ -59,7 +59,7 @@ public class MyLocation extends BaseInstanceEnabler {
 
     @Override
     public ReadResponse read(LwM2mServer server, int resourceid) {
-        LOG.info("Read on Location resource /{}/{}/{}", getModel().id, getId(), resourceid);
+        LOG.debug("Read on Location resource /{}/{}/{}", getModel().id, getId(), resourceid);
         switch (resourceid) {
         case 0:
             return ReadResponse.success(resourceid, getLatitude());

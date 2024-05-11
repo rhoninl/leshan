@@ -65,7 +65,7 @@ public class MyDevice extends BaseInstanceEnabler implements Destroyable {
     @Override
     public ReadResponse read(LwM2mServer server, int resourceid) {
         if (!server.isSystem())
-            LOG.info("Read on Device resource /{}/{}/{}", getModel().id, getId(), resourceid);
+            LOG.debug("Read on Device resource /{}/{}/{}", getModel().id, getId(), resourceid);
         switch (resourceid) {
         case 0:
             return ReadResponse.success(resourceid, getManufacturer());

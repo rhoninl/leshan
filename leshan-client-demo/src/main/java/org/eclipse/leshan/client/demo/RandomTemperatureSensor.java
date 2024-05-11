@@ -65,7 +65,7 @@ public class RandomTemperatureSensor extends BaseInstanceEnabler implements Dest
 
     @Override
     public synchronized ReadResponse read(LwM2mServer server, int resourceId) {
-        LOG.info("Read on Temperature resource /{}/{}/{}", getModel().id, getId(), resourceId);
+        LOG.debug("Read on Temperature resource /{}/{}/{}", getModel().id, getId(), resourceId);
         switch (resourceId) {
         case MIN_MEASURED_VALUE:
             return ReadResponse.success(resourceId, getTwoDigitValue(minMeasuredValue));
